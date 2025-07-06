@@ -161,6 +161,37 @@ The `drive(self)` method is responsible for generating and publishing the drive 
 5. **Debug Output:**
    - Prints velocity, omega, and mode for debugging at a reduced frequency.
 
+## Steering Control Function (`steer`)
+
+The `steer(self, initial_angles, final_angles, mode)` function is responsible for rotating the steering motors of all four wheels to desired angles using closed-loop feedback from encoders.
+
+### How It Works
+
+- **Inputs:**
+  - `initial_angles`: List of starting encoder angles for each wheel.
+  - `final_angles`: List of target angles (relative or absolute, depending on mode).
+  - `mode`:  
+    - `0` = Relative mode (move each wheel by a specified offset from its current position)
+    - `1` = Absolute mode (move each wheel to a specified absolute angle)
+
+- **Process:**
+  - For each wheel, the function calculates the error between the current encoder reading and the target angle.
+  - It applies a proportional controller (`kp_steer`) to compute the PWM signal needed to reduce the error.
+  - The PWM command is capped at `max_steer_pwm` to avoid overdriving the motors.
+  - The process repeats in a loop, updating the PWM commands and publishing them at 10 Hz, until all wheels are within a small error threshold (`error_thresh`) of their targets or a timeout occurs.
+
+### Modes Explained
+
+- **Relative Mode (`mode == 0`):**
+  - Each wheel is commanded to move by a certain angle relative to where it started.
+  - Example: If `final_angles = [45, 45, 45, 45]`, each wheel will try to rotate +45° from its initial position.
+
+- **Absolute Mode (`mode == 1`):**
+  - Each wheel is commanded to reach a specific absolute angle.
+  - Example: If `final_angles = [0, 90, 0, 90]`, wheels will move to those exact angles.
+
+
+
 
 
 
