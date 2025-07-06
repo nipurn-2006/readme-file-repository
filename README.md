@@ -44,11 +44,11 @@ Initially the state is initialised as False  for manual mode
 Moroever both the steering_isLocked and full_potential_isLocked are initailised to true and rotinplace is initialised as false
 
 
-Joycallback --->>
-the modes available for the rover are 0,1,2,3,4.
-On pressing mode up button the mode rises by 1 and on pressing mode down button the mode decreases by 1 
-The higher the mode Higher is the speed of the rover 
-Dependiong on the steering isLocked and full_potential_isLocked states the axes definition changes -
+ # Joycallback --->>
+- the modes available for the rover are 0,1,2,3,4.
+- On pressing mode up button the mode rises by 1 and on pressing mode down button the mode decreases by 1 
+- The higher the mode Higher is the speed of the rover 
+- Dependiong on the steering isLocked and full_potential_isLocked states the axes definition changes -
 
 ## Joystick Axes and Buttons
 
@@ -103,5 +103,88 @@ Dependiong on the steering isLocked and full_potential_isLocked states the axes 
 | `steering_ctrl_unlocked` | 2 (Unlocked Steering)   | `[forward_btn, parallel_btn]` — for relative 45-degree or other advanced steering functions |
 | `steering_ctrl_pwm`      | 2 (Unlocked Steering)   | `[steer_samedir_axis, steer_oppdir_axis]` — for PWM-based steering control                  |
 | `full_potential_pwm`     | 3 (Individual Steering) | `[fl_wheel_axis, fr_wheel_axis, bl_wheel_axis, br_wheel_axis]` — individual wheel steering  |
+
+
+## Switching the modes 
+- If the steer unlock axis is pressed to -1 then the steer_isLocked becomes False
+- If the full_potential_unlock is pressed to -1 then the full_potential_isLocked becomes False 
+- If autonomous button is pressed then the state changes to True 
+
+# Steering function 
+It basically responds to the button or the axis pressed
+
+## For both the modes true
+- If front button is pressed then the four wheels get aligned along the rover 
+- If the parallel button is pressed then the four wheels get aligned perpendicular to the rover 
+- If the rotin place button is pressed then the two wheels get aligned at 55 degree and the two wheels get aligned at -55 with respect to the rover 
+- If the cuve_poosite_str is crossing 0.2 then the rover will take a curve and for that wheels will have a velocity as well as a omega 
+
+## Steer unlocked-False and full_potential-True
+- If forward button is pressed then all the wheels roatate 45 degree clockwise relative to the initial angle 
+- If parallel button is pressed then all the wheels rotate 45 degree anticlockwise relative to the intitial angle
+- If the same direction axis is pressed then all the wheels get a pwm value  in the same direction 
+- If the  opposite direction axis is pressed then all the wheels get a pwm value  in the opposite  direction
+
+
+##   Steer unlocked-True and full_potential-False
+In this mode every wheel is rotated independent of the others 
+depending on the button differebnt wheels can be rotated independently 
+
+## Drive Function Overview
+
+The `drive(self)` method is responsible for generating and publishing the drive PWM commands for all four wheels of the rover. It works in both manual (joystick) and autonomous modes, supporting both normal and rotation-in-place driving.
+
+### Logic Flow
+
+1. **Drive is only active when:**
+   - Steering is complete (`steering_complete == True`)
+   - Steering is locked (`steer_islocked == True`)
+   - Full potential (individual wheel) mode is locked (`full_potential_islocked == True`)
+
+2. **Modes:**
+   - **Rotation-in-place:**  
+     - Triggered by a special joystick button (`rotinplace == True`)
+     - Uses only the left/right axis to spin the rover around its center.
+     - PWM values for left/right wheels are set in opposite directions.
+   - **Normal drive:**  
+     - Uses joystick axes for forward/backward and left/right movement.
+     - Smooths velocity and omega (rotation) using a queue/average filter.
+     - Computes PWM for each wheel based on the sum/difference of velocity and omega.
+
+3. **Autonomous Mode:**
+   - If `state == True`, velocity and omega are set by the autonomous system instead of the joystick.
+
+4. **PWM Message Structure:**
+   - `self.pwm_msg.data = [fl_dr, fr_dr, bl_dr, br_dr, fl_str, fr_str, bl_str, br_str]`
+   - Only the first four values (drive) are set in this function; steering values are handled elsewhere.
+
+5. **Debug Output:**
+   - Prints velocity, omega, and mode for debugging at a reduced frequency.
+
+### Joystick Mapping Reference
+
+Below are the joystick controls as mapped in the code.  
+Refer to the images for physical button/axis locations.
+
+#### Main Controls
+
+![Joystick Main Controls](rsp46munhsorvzdm9ehp.png)
+
+- **Forward/Backward:** Left stick vertical (`fb_axis`)
+- **Left/Right:** Left stick horizontal (`lr_axis`)
+- **Mode Up/Down:** Shoulder buttons (`modeupbtn`, `modednbtn`)
+- **Rotation-in-place:** Dedicated button (`rotinplace_btn`)
+- **Steering/Full Potential Unlock:** Triggers or bumpers as axes
+
+#### Individual Wheel and Steering PWM Controls
+
+![Joystick Individual Axes](rsp46munhsorvzdm9ehp.png)
+
+- **Individual wheel steering:** Custom axes (`fl_wheel_axis`, `fr_wheel_axis`, `bl_wheel_axis`, `br_wheel_axis`)
+- **Steering PWM:** Right stick axes (`steer_samedir_axis`, `steer_oppdir_axis`)
+
+### Example: Rotation-in-Place Mode
+
+
 
 
