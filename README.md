@@ -1,4 +1,3 @@
-
 # FULL AUTO STEERING 
 
 ### shebang-->
@@ -49,6 +48,33 @@ Joycallback --->>
 the modes available for the rover are 0,1,2,3,4.
 On pressing mode up button the mode rises by 1 and on pressing mode down button the mode decreases by 1 
 The higher the mode Higher is the speed of the rover 
+Dependiong on the steering isLocked and full_potential_isLocked states the axes definition changes -
+
+## Joystick Axes and Buttons Mapping
+
+| Label in Image              | Code Variable / Axis/Button Name    | Function / Usage in Code                | Typical Joystick Location       |
+|-----------------------------|-------------------------------------|-----------------------------------------|---------------------------------|
+| `modeupbtn`                 | `modeupbtn` (Button)                | Increase drive mode                     | Top, right shoulder (RB)        |
+| `modednbtn`                 | `modednbtn` (Button)                | Decrease drive mode                     | Top, left shoulder (LB)         |
+| `forward_btn`               | `forward_btn` (Button)              | All wheels forward steering             | Face button (e.g., Y or X)      |
+| `parallel_btn`              | `parallel_btn` (Button)             | All wheels perpendicular steering       | Face button (e.g., B or A)      |
+| `rotinplace_btn`            | `rotinplace_btn` (Button)           | Rotate-in-place steering                | Face button (e.g., X or Y)      |
+| `steer_unlock_axis`         | `steer_unlock_axis` (Axis)          | Toggle steering unlock mode             | Trigger or bumper (analog axis) |
+| `full_potential_unlock_axis`| `full_potential_unlock_axis` (Axis) | Toggle individual wheel control mode    | Trigger or bumper (analog axis) |
+| `fb_axis`                   | `fb_axis` (Axis)                    | Forward/Backward drive                  | Left stick vertical             |
+| `lr_axis`                   | `lr_axis` (Axis)                    | Left/Right drive                        | Left stick horizontal           |
+| `curve_opp_str`             | Axis 3                              | Curved steering (opposite direction)    | Right stick horizontal          |
+| `steer_samedir_axis`        | `steer_samedir_axis` (Axis)         | All wheels steer same direction (PWM)   | Right stick vertical            |
+| `steer_oppdir_axis`         | `steer_oppdir_axis` (Axis)          | Opposite direction steering (PWM)       | Right stick horizontal          |
+| `fl_wheel_axis`             | `fl_wheel_axis` (Axis)              | Individual front-left wheel steering    | Custom mapped axis              |
+| `fr_wheel_axis`             | `fr_wheel_axis` (Axis)              | Individual front-right wheel steering   | Custom mapped axis              |
+| `bl_wheel_axis`             | `bl_wheel_axis` (Axis)              | Individual back-left wheel steering     | Custom mapped axis              |
+| `br_wheel_axis`             | `br_wheel_axis` (Axis)              | Individual back-right wheel steering    | Custom mapped axis              |
+| `autonomous_btn`            | `autonomous_btn` (Button)           | Toggle autonomous/manual mode           | Start/Menu/Guide button         |
+
+> **Note:**  
+> - "Custom mapped axis" means you may need to check your joystick configuration or code for the exact axis number.
+> - The actual button/axis numbers may vary depending on your joystick model and ROS setup. Always verify with your device.
 
 ## Steering and Drive Modes
 
@@ -69,3 +95,5 @@ The higher the mode Higher is the speed of the rover
 | `steering_ctrl_unlocked` | 2 (Unlocked Steering)   | `[forward_btn, parallel_btn]` — for relative 45-degree or other advanced steering functions |
 | `steering_ctrl_pwm`      | 2 (Unlocked Steering)   | `[steer_samedir_axis, steer_oppdir_axis]` — for PWM-based steering control                  |
 | `full_potential_pwm`     | 3 (Individual Steering) | `[fl_wheel_axis, fr_wheel_axis, bl_wheel_axis, br_wheel_axis]` — individual wheel steering  |
+
+
