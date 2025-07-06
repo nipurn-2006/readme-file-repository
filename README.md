@@ -50,6 +50,14 @@ On pressing mode up button the mode rises by 1 and on pressing mode down button 
 The higher the mode Higher is the speed of the rover 
 Dependiong on the steering isLocked and full_potential_isLocked states the axes definition changes -
 
+## Joystick Axes and Buttons
+
+![Joystick Axes and Buttons](rsp46munhsorvzdm9ehp.png)
+
+*Joystick layout showing all mapped axes and buttons for rover control.*
+
+
+
 ## Joystick Axes and Buttons Mapping
 
 | Label in Image              | Code Variable / Axis/Button Name    | Function / Usage in Code                | Typical Joystick Location       |
