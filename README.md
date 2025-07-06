@@ -161,29 +161,8 @@ The `drive(self)` method is responsible for generating and publishing the drive 
 5. **Debug Output:**
    - Prints velocity, omega, and mode for debugging at a reduced frequency.
 
-### Joystick Mapping Reference
 
-Below are the joystick controls as mapped in the code.  
-Refer to the images for physical button/axis locations.
 
-#### Main Controls
-
-![Joystick Main Controls](rsp46munhsorvzdm9ehp.png)
-
-- **Forward/Backward:** Left stick vertical (`fb_axis`)
-- **Left/Right:** Left stick horizontal (`lr_axis`)
-- **Mode Up/Down:** Shoulder buttons (`modeupbtn`, `modednbtn`)
-- **Rotation-in-place:** Dedicated button (`rotinplace_btn`)
-- **Steering/Full Potential Unlock:** Triggers or bumpers as axes
-
-#### Individual Wheel and Steering PWM Controls
-
-![Joystick Individual Axes](rsp46munhsorvzdm9ehp.png)
-
-- **Individual wheel steering:** Custom axes (`fl_wheel_axis`, `fr_wheel_axis`, `bl_wheel_axis`, `br_wheel_axis`)
-- **Steering PWM:** Right stick axes (`steer_samedir_axis`, `steer_oppdir_axis`)
-
-### Example: Rotation-in-Place Mode
 
 
 
