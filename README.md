@@ -190,6 +190,16 @@ The `steer(self, initial_angles, final_angles, mode)` function is responsible fo
   - Each wheel is commanded to reach a specific absolute angle.
   - Example: If `final_angles = [0, 90, 0, 90]`, wheels will move to those exact angles.
 
+## Flow of Control
+
+1. **Incoming Callbacks**
+    - joyCallback
+    - encoderCallback
+2. **MAIN**
+3. **STEERING is called**
+4. **STEER is called**
+5. **DRIVE is called**
+6. **Message is published**
 
 
 
